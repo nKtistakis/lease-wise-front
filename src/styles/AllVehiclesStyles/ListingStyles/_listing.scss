@@ -1,0 +1,87 @@
+@use "../../global" as *;
+
+.listing {
+  // width: fit-content;
+  width: 18vw;
+  height: fit-content;
+  background-color: white;
+  box-shadow: 0 10px 20px 0 rgb(0 0 0 / 10%);
+  border-radius: 5px;
+  background-image: url("/src/images/book-car/book-bg.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: $text-black;
+  transition: all 0.3s;
+  // flex-grow: 1;
+  // flex-basis: 200;
+
+  
+  &-content{
+    display: flex;
+    flex-direction: column;
+    
+    img{
+      width: 100%;
+      height: 100%;
+    }
+
+    &-information{
+      margin-inline: 0.7rem;
+
+      h4{
+        font-size: large;
+        font-weight: 600;
+      }
+
+      h5{
+        font-size: medium;
+        font-weight: 300;
+      }
+
+      &-fuel{
+        margin-top: 1rem;
+        font-size: 1.4rem;
+        font-weight: 200;
+      }
+
+      &-price{
+        font-size: 3rem;
+        font-weight: 600;
+        text-align: end;
+
+        span{
+        font-size: 1.3rem;
+        font-weight: 300;
+        }
+      }
+    }
+
+    &-btn{
+      padding: 0.8rem 0.8rem;
+      margin: 2rem;
+      border: 1px solid $text-orange;
+      font-family: $text-font;
+      font-weight: 500;
+      color: $text-orange;
+      background-color: white;
+      box-shadow: 0 10px 15px rgb(255 83 48 / 35%);
+      cursor: pointer;
+      transition: all 0.3s;
+    
+      &:hover {
+        color: white;
+        background-color: $text-orange;
+      }
+
+    }
+
+  }
+
+  &:hover {
+    box-shadow: 0 10px 15px rgb(255 83 48 / 55%);
+  }
+}
+
+
+

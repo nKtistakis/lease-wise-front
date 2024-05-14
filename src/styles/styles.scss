@@ -1,0 +1,27 @@
+@forward "../styles/global";
+@forward "../styles/NavbarStyles";
+@forward "../styles/FooterStyles";
+
+// LandingPage
+@forward "./LandingPageStyles/HeroStyles";
+@forward "./LandingPageStyles/BannerStyles";
+@forward "./LandingPageStyles/SearchStyles";
+@forward "./LandingPageStyles/BookStyles";
+@forward "./LandingPageStyles/PlanTripStyles";
+@forward "./LandingPageStyles/FaqStyles";
+
+// AllVehiclesStyles
+@forward "./AllVehiclesStyles/TitleStyles/";
+@forward "./AllVehiclesStyles/FilterBoxStyles";
+@forward "./AllVehiclesStyles/GridLayoutStyles/";
+@forward "./AllVehiclesStyles/ListingStyles";
+
+
+// @forward "../styles/PickStyles";
+// @forward "../styles/ChooseStyles";
+// @forward "../styles/TestimonialsStyles";
+// @forward "../styles/DownloadStyles";
+// @forward "../styles/AboutStyles";
+// @forward "../styles/ModelsStyles";
+// @forward "../styles/TeamStyles";
+// @forward "../styles/ContactStyles";

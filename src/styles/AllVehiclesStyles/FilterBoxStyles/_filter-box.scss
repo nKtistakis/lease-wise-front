@@ -1,0 +1,71 @@
+@use "../../global" as *;
+
+.filters-section {
+  min-width: 20vw;
+  background-color: $bg-gray;
+  display: flex;
+  justify-content: center;
+  flex-grow: 0;
+
+
+  &-box{
+    align-self: center;
+    background-color: $bg-white;
+    padding: 5rem;
+    max-width: 100%;
+    box-shadow: 0 10px 20px 0 rgb(0 0 0 / 10%);
+    color: white;
+    border-radius: 5px;
+    background-image: url("/src/images/book-car/book-bg.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: $text-black;
+
+    h2{
+      text-align: center;
+      padding-bottom: 1.5rem;
+    }
+
+    .filters-form{
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      &-field{
+        // color: #f8d7da;
+
+        .select{
+          // height: 10rem;
+          width: 100%;
+        }
+
+        label {
+          font-weight: 600;
+        }
+
+      }
+
+      &-clear-btn{
+        padding: 0.8rem 0.8rem;
+        height: fit-content;
+        align-self: self-end;
+        border: none;
+        font-family: $text-font;
+        font-weight: 500;
+        color: white;
+        background-color: $text-orange;
+        box-shadow: 0 10px 15px rgb(255 83 48 / 35%);
+        cursor: pointer;
+        transition: all 0.3s;
+          &:hover {
+            box-shadow: 0 10px 15px rgb(255 83 48 / 55%);
+          }
+
+      }
+    } 
+
+
+    }
+  }
+

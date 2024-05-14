@@ -1,0 +1,46 @@
+@use "../../global" as *;
+
+.vehiclesListingContent{
+  background-color: $bg-gray;
+  padding-bottom: 10rem;
+  display: flex;
+}
+
+.title-section {
+  width: 100%;
+  padding-top: 20vh;
+  background-color: $bg-gray;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10vh;
+
+  h1{
+    font-size: $h4-size;
+    font-family: $text-font;
+    color: $text-black;
+  }
+
+  p{
+    font-size: $p-size;
+    font-family: $text-font;
+    line-height: 1.6;
+    color: $text-gray;
+  }
+  
+  span {
+    color: $text-orange;
+  }
+}
+
+.bg-shape {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+
+  @media (max-width: 800px) {
+    display: none;
+  }
+}
