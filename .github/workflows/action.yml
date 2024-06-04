@@ -33,19 +33,19 @@ jobs:
         - name: executing remote ssh commands using password
           uses: appleboy/ssh-action@v1.0.3
           with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.USERNAME }}
-            key: ${{ secrets.KEY }}
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
             # TODO: CHANGE SSH PORT
             # port: ${{ secrets.PORT }}
             script_stop: true
             script: |
-              echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+              echo ${{ secrets.PAT }} | docker login ghcr.io -u nktistakis --password-stdin
               cd ${{ secrets.SSH_WORKDIR }} 
               ls
               docker-compose pull
               docker-compose up -d
-              exit"
+              exit
         - name: cleanup
           run: rm -rf ~/.ssh
           
