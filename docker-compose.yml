@@ -1,0 +1,8 @@
+services:
+  leasefront:
+    container_name: leasefront
+    image: leasefront:latest
+    restart: always
+
+    ports:
+      - 3000:80
