@@ -38,7 +38,7 @@ jobs:
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
             ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
         - name: connect and pull
-          run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} && "echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && cd ${{ secrets.SSH_WORKDIR }} && ls && docker-compose pull && docker-compose up -d && exit"
+          run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SSH_WORKDIR }} && docker compose pull && docker compose up -d && exit"
         # - name: Login to Github Registry
         #   run: echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
         # - name: Docker Compose up
