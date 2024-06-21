@@ -8,7 +8,7 @@ import Footer from "./Sections/Footer";
 function LandingPage() {
   return (
     <>
-      {/* <Hero /> */}
+      <Hero />
       <FindCar />
       <PlanTrip />
       <Banner />
