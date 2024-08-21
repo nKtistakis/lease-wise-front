@@ -19,4 +19,36 @@
     grid-template-columns: repeat(auto-fit, minmax(16.5vw, 1fr));
     gap: 4rem;
   }
+
+  &-btn{
+    display: block;
+    width: 100%;
+    max-width: 100%; /* Ensures it takes the full width of its container */
+    margin: 0 auto;
+    padding: 0.8rem 0.8rem;
+    border: 1px solid $text-orange;
+    font-family: $text-font;
+    font-weight: 500;
+    color: $text-orange;
+    background-color: white;
+    box-shadow: 0 10px 15px rgb(255 83 48 / 35%);
+    cursor: pointer;
+    text-align: center;  /* Ensures the text inside is centered */
+    transition: all 0.3s;
+    text-decoration: none;
+  
+    &:hover {
+      color: white;
+      background-color: $text-orange;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      color: grey;  
+      background-color: #f0f0f0;
+      border-color: grey;  
+      box-shadow: none;  
+    }
+
+  }
 }

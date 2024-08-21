@@ -79,7 +79,7 @@ function FindCar() {
         <form className="form-elements">
           <div className="form-elements__form-selects">
             <div className="element">
-              <label>Manufacturer</label>
+              <label>Manufacturer </label>
               <Select
                 name="manufacturer"
                 value={values.manufacturer}

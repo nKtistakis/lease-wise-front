@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 const Listing = (props) => {
-  const { manufacturer, model, fuel_type, price } = props;
+  const { manufacturer, model, fuel_type, image, price, listing_url } = props;
 
   // const manufacturer = "Peugot";
   // const model = "208 Ti Eco Super";
@@ -13,10 +13,7 @@ const Listing = (props) => {
       <div className="listing">
         <div className="listing-content">
           <div className="listing-content-image">
-            <img
-              alt={`${manufacturer} ${model}`}
-              src="https://cdn.imagin.studio/getImage?make=renault&modelFamily=clio&modelRange=clio&modelVariant=ha&bodySize=5&transmission=0&paintId=143400&paintDescription=white&angle=01&customer=lpl&zoomType=relative&width=400&zoomLevel=12&tailoring=leaseplan&modelYear=2024&powerTrain=hybrid&trim=eu"
-            />
+            <img alt={`${manufacturer} ${model}`} src={image} />
           </div>
           <div className="listing-content-information">
             <h4>{manufacturer}</h4>
@@ -29,7 +26,11 @@ const Listing = (props) => {
               {price + "  "} €
             </p>
           </div>
-          <button className="listing-content-btn">View this offer</button>
+          <button className="listing-content-btn">
+            <a href={listing_url} target="_blank">
+              View this offer
+            </a>
+          </button>
         </div>
       </div>
     </>

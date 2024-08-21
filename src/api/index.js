@@ -1,16 +1,21 @@
-async function _fetch(url, options) {
-  try {
-    const res = await fetch(url, options);
+export async function getVehicles(query = "") {
+  const url = "http://localhost:8080/vehicles" + query;
 
-    if (!res.ok) {
-      throw new Error("Network response was not ok");
+  try {
+    console.log(url);
+
+    const res = await fetch(url);
+    const response = await res.json();
+
+    if (!res.ok || !response.success) {
+      throw new Error(
+        `Response received from API was: ${res.status} - ${res.statusText}, and/or "success": ${response.success}`
+      );
     }
 
-    return res.json();
+    return response.data;
   } catch (err) {
-    console.error(err);
-    throw new Error(err);
+    console.error("Fetch error:", err);
+    throw err; // Re-throw the error to be caught by `useQuery`
   }
 }
-
-module.exports = _fetch;
