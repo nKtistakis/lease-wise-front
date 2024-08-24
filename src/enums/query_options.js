@@ -26,7 +26,7 @@ export default class queryOptions {
     { value: "Mitsubishi", label: "Mitsubishi" },
     { value: "Nissan", label: "Nissan" },
     { value: "Opel", label: "Opel" },
-    { value: "Peugot", label: "Peugot" },
+    { value: "Peugeot", label: "Peugot" },
     { value: "Piaggio", label: "Piaggio" },
     { value: "Porsche", label: "Porsche" },
     { value: "Renault", label: "Renault" },

@@ -60,7 +60,7 @@ function FilterBox({ handleFilterChange }) {
               <Select
                 className="select"
                 name="characteristcs.fuel_type"
-                value={filterValues.fuel_type}
+                value={filterValues["characteristcs.fuel_type"]}
                 onChange={handleChange}
                 options={queryOptions.fuel}
               />
@@ -70,7 +70,7 @@ function FilterBox({ handleFilterChange }) {
               <Select
                 className="select"
                 name="characteristcs.gear_type"
-                value={filterValues.gear_type}
+                value={filterValues["characteristcs.gear_type"]}
                 onChange={handleChange}
                 options={queryOptions.gear}
               />
@@ -80,7 +80,7 @@ function FilterBox({ handleFilterChange }) {
               <Select
                 className="select"
                 name="min_price"
-                value={filterValues.min_price}
+                value={filterValues["min_price"]}
                 onChange={handleChange}
               />
             </div>
