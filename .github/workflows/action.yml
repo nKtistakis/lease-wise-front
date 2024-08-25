@@ -7,64 +7,69 @@ on:
       - "main"
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: nktistakis/leasefront:latest
+  IMAGE_NAME: tastebit/leaseback
 
 jobs:
-    publish:
-        name: publish image
-        runs-on: ubuntu-latest
+  publish:
+    name: Build & Publish Image
+    runs-on: ubuntu-latest
 
-        steps:
-        - uses: actions/checkout@v3
-        - name: Login
-          run: |
-            echo ${{ secrets.PAT }} | docker login ghcr.io -u nktistakis --password-stdin
-        - name: Build and Publish
-          run: |
-            docker build . --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-            docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    deploy:
-        needs: publish
-        name: deploy image
-        runs-on: ubuntu-latest
-        steps:
-        - name: executing remote ssh commands using password
-          uses: appleboy/ssh-action@v1.0.3
-          with:
-            host: ${{ secrets.SSH_HOST }}
-            username: ${{ secrets.SSH_USER }}
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            # TODO: CHANGE SSH PORT
-            # port: ${{ secrets.PORT }}
-            script_stop: true
-            script: |
-              echo ${{ secrets.PAT }} | docker login ghcr.io -u nktistakis --password-stdin
-              cd ${{ secrets.SSH_WORKDIR }} 
-              ls
-              docker-compose pull
-              docker-compose up -d
-              exit
-        - name: cleanup
-          run: rm -rf ~/.ssh
-          
-        # - name: install ssh keys
-        #   # check this thread to understand why its needed:
-        #   # <https://stackoverflow.com/a/70447517>
-        #   run: |
-        #     install -m 600 -D /dev/null ~/.ssh/id_rsa
-        #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        #     ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-        # - name: connect and pull
-        #   run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SSH_WORKDIR }} && ls && docker-compose pull && docker-compose up -d && exit"
-        # - name: connect and pull
-        #   run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
-        # - name: Login to Github Registry
-        #   run: echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-        # - name: LS
-        #   run: "ls -la"
-        # - name: Docker Compose up
-        #   run: cd ${{ secrets.SSH_WORKDIR }} && docker-compose pull && docker-compose up -d && exit
-        # - name: cleanup
-        #   run: rm -rf ~/.ssh
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/arm64
+          tags: ${{ env.IMAGE_NAME }}
+          push: true
+
+      - name: Overwrite docker-compose.yaml on host
+        # scp repo's docker compose to host machine
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          scp -o StrictHostKeyChecking=no docker-compose.yaml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_WORKDIR }}
+      - name: Creds cleanup
+        run: rm -rf ~/.ssh
+
+  deploy:
+    needs: publish
+    name: Deploy Image to LeaseFront
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # TODO: CHANGE SSH PORT
+          # port: ${{ secrets.PORT }}
+          script_stop: true
+          script: |
+            echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            cd ${{ secrets.SSH_WORKDIR }}
+            docker-compose down --rmi local
+            docker-compose pull
+            docker-compose up -d
+            exit
+
+      - name: cleanup
+        run: rm -rf ~/.ssh
