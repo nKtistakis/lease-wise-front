@@ -1,5 +1,5 @@
 export async function getVehicles(query = "") {
-  const url = "http://localhost:8080/vehicles" + query;
+  const url = process.env.REACT_APP_API_URL + "/vehicles/total" + query;
 
   try {
     console.log(url);
