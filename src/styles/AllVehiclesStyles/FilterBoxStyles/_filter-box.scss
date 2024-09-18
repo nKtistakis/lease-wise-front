@@ -46,6 +46,52 @@
 
       }
 
+      &-order-btns {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+    
+        button {
+          padding: 0.8rem;
+          width: 100%;
+          height: fit-content;
+          border: none;
+          font-family: $text-font;
+          font-weight: 500;
+          color: white;
+          cursor: pointer;
+          transition: all 0.3s;
+          &:hover {
+            background-color: $text-orange;
+            box-shadow: 0 10px 15px rgb(255 83 48 / 55%);
+          }
+    
+          &.selected {
+            background-color: $text-orange;
+
+          }
+    
+
+          img{
+            filter: brightness(0);
+            width: 20px;
+            height: 20px;
+
+            &.selected {
+              filter: brightness(0) invert(1);    
+            }
+
+            &.desc {
+              transform: rotate(180deg)
+            }
+
+            &:hover {
+              filter: brightness(0) invert(1);
+            }
+          }
+        }
+      }
+
       &-clear-btn{
         padding: 0.8rem 0.8rem;
         height: fit-content;
@@ -61,11 +107,8 @@
           &:hover {
             box-shadow: 0 10px 15px rgb(255 83 48 / 55%);
           }
-
       }
     } 
-
-
     }
   }
 

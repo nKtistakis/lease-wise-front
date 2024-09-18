@@ -8,8 +8,15 @@ function GridLayout({ filters }) {
   const [cursor, setCursor] = useState(1); // Track the current cursor
 
   const fetchVehicles = async () => {
+    const { min_price, ...queryParams } = filters;
+
+    if (min_price) {
+      queryParams.order = min_price; // "asc" or "desc"
+      queryParams.sort = "min_price"; // Always sort by min_price
+    }
+
     const query = new URLSearchParams({
-      ...filters,
+      ...queryParams,
       cursor: cursor,
     }).toString();
 
@@ -22,6 +29,13 @@ function GridLayout({ filters }) {
     {
       keepPreviousData: false, // Keep the previous data while fetching new data
       retry: 2,
+      onSuccess: (data) => {
+        if (data && data.results) {
+          setVehicles((prevVehicles) =>
+            cursor === 0 ? data.results : [...prevVehicles, ...data.results]
+          );
+        }
+      },
       onError: (err) => {
         console.error("Error fetching vehicles:", err);
       },
@@ -29,17 +43,9 @@ function GridLayout({ filters }) {
   );
 
   useEffect(() => {
-    if (data && data.results) {
-      setVehicles((prevVehicles) =>
-        cursor === 0 ? data.results : [...prevVehicles, ...data.results]
-      );
-    }
-  }, [data, cursor]);
-
-  useEffect(() => {
-    setCursor(1); // Reset cursor when filters change
-    setVehicles([]); // Clear the current vehicles list when filters change
-    refetch(); // Refetch data when filters change
+    setCursor(1);
+    setVehicles([]);
+    refetch();
   }, [filters, refetch]);
 
   const handleNextClick = () => {
@@ -61,13 +67,7 @@ function GridLayout({ filters }) {
     );
   }
 
-  if (!vehicles || vehicles.length === 0) {
-    return (
-      <div className="error">
-        <p>No vehicles found.</p>
-      </div>
-    );
-  }
+  console.log(vehicles);
 
   return (
     <>
@@ -79,6 +79,9 @@ function GridLayout({ filters }) {
               manufacturer={vehicle.manufacturer}
               model={vehicle.model}
               fuel_type={vehicle.characteristcs.fuel_type}
+              engine_power={vehicle.characteristcs.engine_power}
+              gear_type={vehicle.characteristcs.gear_type}
+              horsepower={vehicle.characteristcs.horsepower}
               price={vehicle.min_price}
               image={vehicle.image}
               listing_url={vehicle.listing_url}

@@ -1,21 +1,30 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import queryOptions from "../../../enums/query_options";
+import ArrowImg from "../../../images/download/arrow.png";
+
 function FilterBox({ handleFilterChange }) {
   const [filterValues, setFilterValues] = useState({
     manufacturer: null,
     "characteristcs.professional": null,
     "characteristcs.fuel_type": null,
     "characteristcs.gear_type": null,
-    min_price: "",
-    max_price: "",
+    min_price: null,
   });
+
+  const [ascSelect, setAscSelect] = useState(false);
+  const [descSelect, setDescSelect] = useState(false);
 
   useEffect(() => {
     const filtersToPass = {};
     for (const filter in filterValues) {
       if (filterValues[filter]) {
-        filtersToPass[filter] = filterValues[filter].value;
+        // Check if the filter is min_price and treat it as a string
+        if (filter === "min_price") {
+          filtersToPass[filter] = filterValues[filter]; // Pass asc or desc directly
+        } else {
+          filtersToPass[filter] = filterValues[filter].value; // Handle other filters as objects with value
+        }
       }
     }
     handleFilterChange(filtersToPass);
@@ -28,15 +37,35 @@ function FilterBox({ handleFilterChange }) {
     }));
   };
 
+  const handleOrderChange = (name) => {
+    if (name === "asc") {
+      setAscSelect(true);
+      setDescSelect(false);
+      setFilterValues((prevValues) => ({
+        ...prevValues,
+        min_price: "asc",
+      }));
+    } else if (name === "desc") {
+      setAscSelect(false);
+      setDescSelect(true);
+      setDescSelect(true);
+      setFilterValues((prevValues) => ({
+        ...prevValues,
+        min_price: "desc",
+      }));
+    }
+  };
+
   const handleClearFilter = () => {
     setFilterValues(() => ({
       manufacturer: null,
       "characteristcs.professional": null,
       "characteristcs.fuel_type": null,
       "characteristcs.gear_type": null,
-      min_price: "",
-      max_price: "",
+      min_price: null,
     }));
+    setAscSelect(false);
+    setDescSelect(false);
   };
 
   return (
@@ -76,22 +105,23 @@ function FilterBox({ handleFilterChange }) {
               />
             </div>
             <div className="filters-form-field">
-              <label>Price: From</label>
-              <Select
-                className="select"
-                name="min_price"
-                value={filterValues["min_price"]}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="filters-form-field">
-              <label>Price: To</label>
-              <Select
-                className="select"
-                name="max_price"
-                value={filterValues.max_price}
-                onChange={handleChange}
-              />
+              <label>Price sort</label>
+              <div className="filters-form-order-btns">
+                <button
+                  name="asc"
+                  className={ascSelect ? "selected" : ""}
+                  onClick={() => handleOrderChange("asc")}
+                >
+                  <img src={ArrowImg} alt="arrow up" />
+                </button>
+                <button
+                  name="desc"
+                  className={descSelect ? "selected" : ""}
+                  onClick={() => handleOrderChange("desc")}
+                >
+                  <img className="desc" src={ArrowImg} alt="arrow down" />
+                </button>
+              </div>
             </div>
             <div className="filters-form-clear-btn">
               <button

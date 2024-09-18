@@ -1,12 +1,15 @@
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const Listing = (props) => {
   const { manufacturer, model, fuel_type, image, price, listing_url } = props;
+  const navigate = useNavigate();
 
-  // const manufacturer = "Peugot";
-  // const model = "208 Ti Eco Super";
-  // const fuel = "Petrol";
-  // const price = 230;
+  const handleViewOfferClick = () => {
+    navigate(`/vehicle/${manufacturer}-${model}`, {
+      state: { vehicle: props },
+    });
+  };
 
   return (
     <>
@@ -26,10 +29,11 @@ const Listing = (props) => {
               {price + "  "} €
             </p>
           </div>
-          <button className="listing-content-btn">
-            <a href={listing_url} target="_blank">
-              View this offer
-            </a>
+          <button
+            className="listing-content-btn"
+            onClick={handleViewOfferClick}
+          >
+            View this offer
           </button>
         </div>
       </div>

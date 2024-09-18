@@ -1406,6 +1406,43 @@ span {
 .filters-section-box .filters-form-field label {
   font-weight: 600;
 }
+.filters-section-box .filters-form-order-btns {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.filters-section-box .filters-form-order-btns button {
+  padding: 0.8rem;
+  width: 100%;
+  height: fit-content;
+  border: none;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.filters-section-box .filters-form-order-btns button:hover {
+  background-color: #ff4d30;
+  box-shadow: 0 10px 15px rgba(255, 83, 48, 0.55);
+}
+.filters-section-box .filters-form-order-btns button.selected {
+  background-color: #ff4d30;
+}
+.filters-section-box .filters-form-order-btns button img {
+  filter: brightness(0);
+  width: 20px;
+  height: 20px;
+}
+.filters-section-box .filters-form-order-btns button img.selected {
+  filter: brightness(0) invert(1);
+}
+.filters-section-box .filters-form-order-btns button img.desc {
+  transform: rotate(180deg);
+}
+.filters-section-box .filters-form-order-btns button img:hover {
+  filter: brightness(0) invert(1);
+}
 .filters-section-box .filters-form-clear-btn {
   padding: 0.8rem 0.8rem;
   height: fit-content;
@@ -1537,6 +1574,73 @@ span {
 }
 .listing:hover {
   box-shadow: 0 10px 15px rgba(255, 83, 48, 0.55);
+}
+
+.vehicle-detail {
+  max-width: 800px;
+  margin: auto;
+  margin-top: 2rem;
+  padding: 2rem;
+  font-family: "Rubik", sans-serif;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.vehicle-gallery {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.vehicle-gallery img {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 8px;
+}
+
+.vehicle-info, .vehicle-features {
+  margin-top: 1.5rem;
+}
+
+.vehicle-info ul, .vehicle-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vehicle-info li, .vehicle-features li {
+  margin-bottom: 0.5rem;
+  font-size: 1.6rem;
+  color: #706f7b;
+}
+
+.cta-button {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.cta-button button {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  color: #ff4d30;
+  background-color: white;
+  border: 1px solid #ff4d30;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(255, 83, 48, 0.35);
+}
+
+.cta-button button:hover {
+  color: white;
+  background-color: #ff4d30;
 }
 
 /*# sourceMappingURL=styles.css.map */

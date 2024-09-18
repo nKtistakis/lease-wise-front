@@ -4,7 +4,7 @@ import Navbar from "../src/components/Navbar";
 import { Route, Routes } from "react-router-dom";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import AllVehiclesPage from "./Pages/AllVehicles/AllVehiclesPage";
-import ResultPage from "./Pages/ResultPage/ResultPage";
+import VehicleDetail from "./Pages/VehicleDetails/VehicleDetailsPage";
 // import Models from "./Pages/Models";
 // import TestimonialsPage from "./Pages/TestimonialsPage";
 // import Team from "./Pages/Team";
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route index path="/" element={<LandingPage />} />
         <Route index path="/all-vehicles" element={<AllVehiclesPage />} />
-        <Route index path="/results" element={<ResultPage />} />
+        <Route path="/vehicle/:vehicleId" element={<VehicleDetail />} />
         {/* <Route path="about" element={<About />} /> */}
         {/* <Route path="all-vehicles" element={<Models />} />
         <Route path="testimonials" element={<TestimonialsPage />} />

@@ -1,0 +1,68 @@
+@use "../global" as *;
+
+.vehicle-detail {
+  max-width: 800px;
+  margin: auto;
+  margin-top: 2rem;
+  padding: 2rem;
+  font-family: $text-font;
+  background-color: $bg-white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.vehicle-gallery {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.vehicle-gallery img {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 8px;
+}
+
+.vehicle-info, .vehicle-features {
+  margin-top: 1.5rem;
+}
+
+.vehicle-info ul, .vehicle-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vehicle-info li, .vehicle-features li {
+  margin-bottom: 0.5rem;
+  font-size: $p-size;
+  color: $text-gray;
+}
+
+.cta-button {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.cta-button button {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  font-family: $text-font;
+  font-weight: 500;
+  color: $text-orange;
+  background-color: white;
+  border: 1px solid $text-orange;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(255, 83, 48, 0.35);
+}
+
+.cta-button button:hover {
+  color: white;
+  background-color: $text-orange;
+}

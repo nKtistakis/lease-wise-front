@@ -2,8 +2,6 @@ export async function getVehicles(query = "") {
   const url = process.env.REACT_APP_API_URL + "/vehicles/total" + query;
 
   try {
-    console.log(url);
-
     const res = await fetch(url);
     const response = await res.json();
 
@@ -15,7 +13,6 @@ export async function getVehicles(query = "") {
 
     return response.data;
   } catch (err) {
-    console.error("Fetch error:", err);
     throw err; // Re-throw the error to be caught by `useQuery`
   }
 }
