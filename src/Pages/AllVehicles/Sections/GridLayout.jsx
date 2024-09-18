@@ -1,13 +1,19 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "react-query";
 import Listing from "./Listing";
 import { getVehicles } from "../../../api/index.js";
 
 function GridLayout({ filters }) {
   const [vehicles, setVehicles] = useState([]); // Store the cumulative list of vehicles
   const [cursor, setCursor] = useState(1); // Track the current cursor
+  const [loading, setLoading] = useState(false); // Track loading state
+  const [error, setError] = useState(null); // Track error state
+  const [hasMore, setHasMore] = useState(true); // Track if there are more vehicles to load
 
+  // Fetch vehicles function
   const fetchVehicles = async () => {
+    setLoading(true);
+    setError(null); // Clear previous errors
+
     const { min_price, ...queryParams } = filters;
 
     if (min_price) {
@@ -20,42 +26,50 @@ function GridLayout({ filters }) {
       cursor: cursor,
     }).toString();
 
-    return await getVehicles(`?${query}`);
+    try {
+      const data = await getVehicles(`?${query}`);
+
+      // If data exists, update vehicles state
+      if (data && data.results) {
+        setVehicles((prevVehicles) =>
+          cursor === 1 ? data.results : [...prevVehicles, ...data.results]
+        );
+        setHasMore(data.cursor !== null); // Check if there are more pages to load
+      }
+    } catch (err) {
+      setError(err); // Handle the error
+    } finally {
+      setLoading(false); // Stop the loading state
+    }
   };
 
-  const { data, isLoading, error, refetch } = useQuery(
-    ["allVehicles", filters, cursor], // Include filters and cursor in query key
-    fetchVehicles,
-    {
-      keepPreviousData: false, // Keep the previous data while fetching new data
-      retry: 2,
-      onSuccess: (data) => {
-        if (data && data.results) {
-          setVehicles((prevVehicles) =>
-            cursor === 0 ? data.results : [...prevVehicles, ...data.results]
-          );
-        }
-      },
-      onError: (err) => {
-        console.error("Error fetching vehicles:", err);
-      },
-    }
-  );
+  // Fetch vehicles when filters or cursor changes
+  useEffect(() => {
+    fetchVehicles();
+  }, [filters, cursor]);
 
+  // Reset vehicles and cursor when filters change
   useEffect(() => {
     setCursor(1);
     setVehicles([]);
-    refetch();
-  }, [filters, refetch]);
+  }, [filters]);
 
   const handleNextClick = () => {
-    if (data.cursor !== null) {
-      setCursor(data.cursor); // Set the cursor from the API response for the next fetch
+    if (hasMore) {
+      setCursor((prevCursor) => prevCursor + 1); // Increment cursor for pagination
     }
   };
 
-  if (isLoading && vehicles.length === 0) {
+  if (loading) {
     return <span>Loading...</span>; // Show loading only when there are no vehicles to display
+  }
+
+  if (vehicles.length === 0) {
+    return (
+      <div className="error">
+        <p>No vehiles in our database with these filters!</p>
+      </div>
+    );
   }
 
   if (error) {
@@ -66,8 +80,6 @@ function GridLayout({ filters }) {
       </div>
     );
   }
-
-  console.log(vehicles);
 
   return (
     <>
@@ -88,13 +100,15 @@ function GridLayout({ filters }) {
             />
           ))}
         </div>
-        <button
-          className="gridlayout-section-btn"
-          onClick={handleNextClick}
-          disabled={!data?.cursor} // Disable button if cursor is null (no more pages)
-        >
-          {"---->      Load more deals      <-----"}
-        </button>
+        {hasMore && (
+          <button
+            className="gridlayout-section-btn"
+            onClick={handleNextClick}
+            disabled={loading} // Disable the button while loading
+          >
+            {"---->      Load more deals      <-----"}
+          </button>
+        )}
       </div>
     </>
   );

@@ -8,8 +8,6 @@ const VehicleDetail = () => {
   if (!vehicle) {
     return <p>No vehicle data found.</p>;
   }
-  console.log(vehicle);
-
   const {
     image,
     manufacturer,
