@@ -65,6 +65,7 @@ jobs:
           script_stop: true
           script: |
             echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            mkdir -p ${{ secrets.SSH_WORKDIR }} 
             cd ${{ secrets.SSH_WORKDIR }}
             docker-compose down --rmi local
             docker-compose pull
